@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pipecat ($PIPECAT) — The Detective Nobody Asked For</title>
+  <meta name="description" content="PIPECAT is the sequel nobody asked for but everyone aped. The crying detective cat is here to send it on Solana." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            moss: {
+              50: '#f0f7e8',
+              100: '#dceec8',
+              200: '#bddf96',
+              300: '#95c85e',
+              400: '#74ad3a',
+              500: '#588f28',
+              600: '#43711e',
+              700: '#35581b',
+              800: '#2d4719',
+              900: '#1a2e0c',
+              950: '#0d1a06',
+            },
+            plaid: {
+              tan: '#C4A574',
+              brown: '#8B6B45',
+              deep: '#5C4330',
+              navy: '#2B3E50',
+              gold: '#D4A84B',
+              cream: '#F5E6C8',
+              smoke: '#E8D9C0',
+            },
+          },
+          fontFamily: {
+            display: ['Bangers', 'cursive'],
+            body: ['Comic Neue', 'cursive'],
+          },
+          boxShadow: {
+            stamp: '4px 4px 0 0 #2B3E50',
+            'stamp-lg': '6px 6px 0 0 #2B3E50',
+            gold: '4px 4px 0 0 #D4A84B',
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    :root {
+      --leaf-1: #3d7a28;
+      --leaf-2: #6b9e3e;
+      --leaf-3: #c4a02a;
+      --leaf-4: #8b5a2b;
+      --leaf-5: #2d5a1a;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Comic Neue', cursive;
+      background:
+        radial-gradient(ellipse at 20% 10%, rgba(116, 173, 58, 0.35) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, rgba(67, 113, 30, 0.4) 0%, transparent 45%),
+        linear-gradient(160deg, #1a2e0c 0%, #2d4719 35%, #35581b 60%, #1a2e0c 100%);
+      min-height: 100vh;
+      color: #F5E6C8;
+      cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Ccircle cx='16' cy='16' r='10' fill='none' stroke='%232B3E50' stroke-width='3'/%3E%3Ccircle cx='16' cy='16' r='10' fill='rgba(245,230,200,0.25)' stroke='%23D4A84B' stroke-width='1.5'/%3E%3Cline x1='24' y1='24' x2='36' y2='36' stroke='%232B3E50' stroke-width='4' stroke-linecap='round'/%3E%3Cline x1='24' y1='24' x2='36' y2='36' stroke='%23C4A574' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") 8 8, auto;
+    }
+
+    a, button, .leaf-target, img, .copy-btn {
+      cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Ccircle cx='16' cy='16' r='10' fill='none' stroke='%232B3E50' stroke-width='3'/%3E%3Ccircle cx='16' cy='16' r='10' fill='rgba(212,168,75,0.35)' stroke='%23D4A84B' stroke-width='1.5'/%3E%3Cline x1='24' y1='24' x2='36' y2='36' stroke='%232B3E50' stroke-width='4' stroke-linecap='round'/%3E%3Cline x1='24' y1='24' x2='36' y2='36' stroke='%23C4A574' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") 8 8, pointer;
+    }
+
+    .noise {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.04;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    .vine-border {
+      border: 3px solid #C4A574;
+      box-shadow:
+        inset 0 0 0 2px #5C4330,
+        0 0 0 4px #2d4719,
+        6px 6px 0 0 #2B3E50;
+    }
+
+    .btn-meme {
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      position: relative;
+      overflow: visible;
+    }
+
+    .btn-meme:hover {
+      transform: translate(-2px, -2px) rotate(-1deg);
+      box-shadow: 8px 8px 0 0 #2B3E50;
+    }
+
+    .btn-meme:active {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0 0 #2B3E50;
+    }
+
+    .ticker {
+      animation: ticker 28s linear infinite;
+    }
+
+    @keyframes ticker {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .float-y {
+      animation: floatY 4s ease-in-out infinite;
+    }
+
+    @keyframes floatY {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+
+    .wiggle {
+      animation: wiggle 2.5s ease-in-out infinite;
+    }
+
+    @keyframes wiggle {
+      0%, 100% { transform: rotate(-2deg); }
+      50% { transform: rotate(2deg); }
+    }
+
+    .pulse-glow {
+      animation: pulseGlow 2s ease-in-out infinite;
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 20px rgba(212, 168, 75, 0.4), 6px 6px 0 0 #2B3E50; }
+      50% { box-shadow: 0 0 36px rgba(212, 168, 75, 0.7), 6px 6px 0 0 #2B3E50; }
+    }
+
+    .step-card {
+      background: linear-gradient(145deg, #F5E6C8 0%, #E8D9C0 100%);
+      color: #2B3E50;
+      transition: transform 0.2s ease;
+    }
+
+    .step-card:hover {
+      transform: translateY(-6px) rotate(1deg);
+    }
+
+    .section-title {
+      text-shadow: 3px 3px 0 #2B3E50, -1px -1px 0 #D4A84B;
+    }
+
+    .leaf-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+      overflow: hidden;
+    }
+
+    .flying-leaf {
+      position: absolute;
+      width: 28px;
+      height: 36px;
+      pointer-events: none;
+      will-change: transform, opacity;
+      animation: leafFly var(--dur, 1.1s) ease-out forwards;
+      filter: drop-shadow(1px 2px 2px rgba(0,0,0,0.35));
+    }
+
+    @keyframes leafFly {
+      0% {
+        opacity: 1;
+        transform: translate(0, 0) rotate(var(--r0, 0deg)) scale(0.6);
+      }
+      40% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        transform: translate(var(--dx, 80px), var(--dy, -120px)) rotate(var(--r1, 180deg)) scale(1.1);
+      }
+    }
+
+    .ca-box {
+      background: linear-gradient(90deg, #5C4330, #8B6B45);
+      border: 3px solid #D4A84B;
+    }
+
+    .marquee-strip {
+      background: repeating-linear-gradient(
+        -45deg,
+        #D4A84B,
+        #D4A84B 12px,
+        #C4A574 12px,
+        #C4A574 24px
+      );
+    }
+
+    .hero-banner {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-banner::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(26, 46, 12, 0.55) 0%, transparent 40%);
+      pointer-events: none;
+    }
+
+    iframe {
+      border: 3px solid #C4A574;
+      box-shadow: 6px 6px 0 0 #2B3E50;
+    }
+
+    .social-img {
+      transition: transform 0.2s ease, filter 0.2s ease;
+      filter: drop-shadow(3px 3px 0 #2B3E50);
+    }
+
+    .social-img:hover {
+      transform: scale(1.12) rotate(-6deg);
+      filter: drop-shadow(5px 5px 0 #D4A84B);
+    }
+
+    .logo-hero {
+      filter: drop-shadow(0 8px 16px rgba(0,0,0,0.45));
+    }
+
+    .copy-toast {
+      animation: toastIn 0.25s ease, toastOut 0.3s ease 1.4s forwards;
+    }
+
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes toastOut {
+      to { opacity: 0; transform: translateY(-8px); }
+    }
+  </style>
+</head>
+<body class="relative overflow-x-hidden">
+  <div class="noise" aria-hidden="true"></div>
+  <div class="leaf-layer" id="leafLayer" aria-hidden="true"></div>
+
+  <!-- Top ticker -->
+  <div class="relative z-20 overflow-hidden border-b-4 border-plaid-navy bg-plaid-gold py-2">
+    <div class="ticker flex whitespace-nowrap font-display text-xl tracking-wider text-plaid-navy">
+      <span class="mx-6">$PIPECAT</span>
+      <span class="mx-6">●</span>
+      <span class="mx-6">INVESTIGATING THE CHART</span>
+      <span class="mx-6">●</span>
+      <span class="mx-6">ELEMENTARY, MY DEAR APERS</span>
+      <span class="mx-6">●</span>
+      <span class="mx-6">SMOKE THE PIPE · SEND THE BAG</span>
+      <span class="mx-6">●</span>
+      <span class="mx-6">SOLANA DETECTIVE MEME</span>
+      <span class="mx-6">●</span>
+      <span class="mx-6">$PIPECAT</span>
+      <span class="mx-6">●</span>
+      <span class="mx-6">INVESTIGATING THE CHART</span>
+      <span class="mx-6">●</span>
+      <span class="mx-6">ELEMENTARY, MY DEAR APERS</span>
+      <span class="mx-6">●</span>
+      <span class="mx-6">SMOKE THE PIPE · SEND THE BAG</span>
+      <span class="mx-6">●</span>
+      <span class="mx-6">SOLANA DETECTIVE MEME</span>
+      <span class="mx-6">●</span>
+    </div>
+  </div>
+
+  <!-- Nav -->
+  <header class="relative z-20 mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-5 sm:px-6">
+    <a href="#" class="leaf-target flex items-center gap-3 group">
+      <img src="logo.png" alt="Pipecat logo" class="h-14 w-14 rounded-full border-4 border-plaid-gold object-cover shadow-stamp sm:h-16 sm:w-16" />
+      <div>
+        <p class="font-display text-3xl leading-none text-plaid-cream group-hover:text-plaid-gold transition-colors sm:text-4xl">Pipecat</p>
+        <p class="font-body text-sm font-bold tracking-widest text-plaid-tan">$PIPECAT</p>
+      </div>
+    </a>
+    <nav class="hidden items-center gap-2 md:flex">
+      <a href="#about" class="leaf-target rounded-md border-2 border-plaid-tan bg-moss-800/80 px-3 py-1.5 font-display text-lg text-plaid-cream hover:bg-plaid-gold hover:text-plaid-navy transition-colors">About</a>
+      <a href="#howtobuy" class="leaf-target rounded-md border-2 border-plaid-tan bg-moss-800/80 px-3 py-1.5 font-display text-lg text-plaid-cream hover:bg-plaid-gold hover:text-plaid-navy transition-colors">How to Buy</a>
+      <a href="#chart" class="leaf-target rounded-md border-2 border-plaid-tan bg-moss-800/80 px-3 py-1.5 font-display text-lg text-plaid-cream hover:bg-plaid-gold hover:text-plaid-navy transition-colors">Chart</a>
+    </nav>
+    <div class="flex items-center gap-3">
+      <a href="https://t.me/Pipecathood" target="_blank" rel="noopener noreferrer" class="leaf-target" title="Telegram">
+        <img src="tg.png" alt="Telegram" class="social-img h-11 w-11 rounded-full object-cover sm:h-12 sm:w-12" />
+      </a>
+      <a href="https://x.com/Pipecathood" target="_blank" rel="noopener noreferrer" class="leaf-target" title="Twitter / X">
+        <img src="x.png" alt="Twitter / X" class="social-img h-11 w-11 rounded-full object-cover sm:h-12 sm:w-12" />
+      </a>
+    </div>
+  </header>
+
+  <main class="relative z-10">
+    <!-- Hero -->
+    <section class="mx-auto max-w-6xl px-4 pb-10 pt-4 sm:px-6">
+      <div class="hero-banner vine-border leaf-target rounded-2xl">
+        <img src="banner.png" alt="Pipecat banner" class="w-full rounded-2xl object-cover" />
+      </div>
+
+      <div class="mt-8 grid items-center gap-8 lg:grid-cols-[1fr_1.2fr]">
+        <div class="flex justify-center">
+          <img src="logo.png" alt="Pipecat character" class="logo-hero leaf-target float-y w-64 max-w-full rounded-2xl border-4 border-plaid-gold object-cover shadow-stamp-lg sm:w-80" />
+        </div>
+
+        <div class="text-center lg:text-left">
+          <p class="mb-2 inline-block rotate-[-2deg] rounded-md bg-plaid-gold px-3 py-1 font-display text-lg text-plaid-navy shadow-stamp">SOLANA MEME · DETECTIVE ARC</p>
+          <h1 class="font-display section-title text-5xl leading-none text-plaid-cream sm:text-6xl md:text-7xl">
+            $PIPECAT
+          </h1>
+          <p class="mt-4 max-w-xl font-body text-xl font-bold leading-snug text-plaid-tan sm:text-2xl lg:mx-0 mx-auto">
+            $PIPECAT is the sequel nobody asked for but everyone aped. The second pipe CA is here to send it.
+          </p>
+          <p class="mt-3 max-w-xl font-body text-base leading-relaxed text-plaid-smoke/90 lg:mx-0 mx-auto">
+            Crying eyes. Plaid cape. Wooden pipe. One job: investigate the next zero and report back with bags. Elementary, my dear degen.
+          </p>
+
+          <!-- CA copy -->
+          <div class="ca-box leaf-target mt-6 flex flex-col gap-3 rounded-xl p-3 sm:flex-row sm:items-center">
+            <div class="min-w-0 flex-1 text-left">
+              <p class="font-display text-sm tracking-widest text-plaid-gold">CONTRACT ADDRESS</p>
+              <p id="caText" class="truncate font-mono text-sm text-plaid-cream sm:text-base">0x23bf453f157ba797aa0787e6f0e62655138fa4e9</p>
+            </div>
+            <button type="button" id="copyCa" class="copy-btn leaf-target btn-meme shrink-0 rounded-lg bg-plaid-gold px-5 py-2.5 font-display text-xl text-plaid-navy shadow-stamp">
+              Copy CA
+            </button>
+          </div>
+          <div id="copyToast" class="mt-2 hidden text-sm font-bold text-plaid-gold"></div>
+
+          <!-- CTA buttons -->
+          <div class="mt-6 flex flex-wrap items-center justify-center gap-4 lg:justify-start">
+            <a
+              href="https://swap.pump.fun/?input=So11111111111111111111111111111111111111112&output=0x23bf453f157ba797aa0787e6f0e62655138fa4e9"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="leaf-target btn-meme pulse-glow inline-flex items-center gap-2 rounded-xl bg-plaid-gold px-8 py-4 font-display text-2xl text-plaid-navy shadow-stamp-lg"
+            >
+              Buy Now
+            </a>
+            <a
+              href="https://dexscreener.com/solana/0x23bf453f157ba797aa0787e6f0e62655138fa4e9"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="leaf-target btn-meme inline-flex items-center gap-2 rounded-xl border-4 border-plaid-gold bg-plaid-navy px-8 py-4 font-display text-2xl text-plaid-cream shadow-gold"
+            >
+              Chart
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stripe -->
+    <div class="marquee-strip relative z-10 h-3 border-y-4 border-plaid-navy"></div>
+
+    <!-- About -->
+    <section id="about" class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+      <h2 class="text-center font-display section-title text-4xl text-plaid-cream sm:text-5xl">The Case of $PIPECAT</h2>
+      <div class="mt-8 grid gap-6 md:grid-cols-3">
+        <article class="leaf-target step-card vine-border rounded-2xl p-6">
+          <img src="logo.png" alt="" class="mx-auto mb-4 h-24 w-24 rounded-full border-4 border-plaid-navy object-cover" />
+          <h3 class="font-display text-2xl text-plaid-navy">Nobody Asked</h3>
+          <p class="mt-2 font-bold text-plaid-deep">A crying Sherlock cat with a pipe? Ridiculous. Perfect. The timeline demanded it.</p>
+        </article>
+        <article class="leaf-target step-card vine-border rounded-2xl p-6">
+          <div class="mx-auto mb-4 flex h-24 w-24 items-center justify-center rounded-full border-4 border-plaid-navy bg-moss-600 font-display text-4xl text-plaid-cream">APE</div>
+          <h3 class="font-display text-2xl text-plaid-navy">Everyone Aped</h3>
+          <p class="mt-2 font-bold text-plaid-deep">Clues point to one conclusion: when the pipe drops, the chart gets investigated hard.</p>
+        </article>
+        <article class="leaf-target step-card vine-border rounded-2xl p-6">
+          <div class="mx-auto mb-4 flex h-24 w-24 items-center justify-center rounded-full border-4 border-plaid-navy bg-plaid-gold font-display text-3xl text-plaid-navy">SOL</div>
+          <h3 class="font-display text-2xl text-plaid-navy">Here to Send It</h3>
+          <p class="mt-2 font-bold text-plaid-deep">Born on Solana. Built for pump energy. Symbol <span class="text-plaid-brown">PIPECAT</span>. Case closed.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- How to Buy -->
+    <section id="howtobuy" class="relative overflow-hidden bg-moss-900/50 py-16">
+      <div class="mx-auto max-w-6xl px-4 sm:px-6">
+        <h2 class="text-center font-display section-title text-4xl text-plaid-cream sm:text-5xl">How to Buy</h2>
+        <p class="mx-auto mt-3 max-w-2xl text-center font-body text-lg font-bold text-plaid-tan">
+          Four clues. One bag. Follow the pipe and stack $PIPECAT on Solana.
+        </p>
+
+        <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <div class="leaf-target step-card vine-border relative rounded-2xl p-5">
+            <span class="absolute -top-3 -left-3 flex h-10 w-10 items-center justify-center rounded-full bg-plaid-gold font-display text-xl text-plaid-navy shadow-stamp">1</span>
+            <h3 class="mt-2 font-display text-2xl text-plaid-navy">Get a Wallet</h3>
+            <p class="mt-2 font-bold text-plaid-deep">Download Phantom or Solflare. Create a wallet and guard your seed like a classified case file.</p>
+          </div>
+          <div class="leaf-target step-card vine-border relative rounded-2xl p-5">
+            <span class="absolute -top-3 -left-3 flex h-10 w-10 items-center justify-center rounded-full bg-plaid-gold font-display text-xl text-plaid-navy shadow-stamp">2</span>
+            <h3 class="mt-2 font-display text-2xl text-plaid-navy">Fund with SOL</h3>
+            <p class="mt-2 font-bold text-plaid-deep">Buy SOL on an exchange, then withdraw it to your Solana wallet address. Gas money for the investigation.</p>
+          </div>
+          <div class="leaf-target step-card vine-border relative rounded-2xl p-5">
+            <span class="absolute -top-3 -left-3 flex h-10 w-10 items-center justify-center rounded-full bg-plaid-gold font-display text-xl text-plaid-navy shadow-stamp">3</span>
+            <h3 class="mt-2 font-display text-2xl text-plaid-navy">Open the Swap</h3>
+            <p class="mt-2 font-bold text-plaid-deep">Hit <strong>Buy Now</strong> to open pump.fun. Connect your wallet. SOL in, $PIPECAT out.</p>
+          </div>
+          <div class="leaf-target step-card vine-border relative rounded-2xl p-5">
+            <span class="absolute -top-3 -left-3 flex h-10 w-10 items-center justify-center rounded-full bg-plaid-gold font-display text-xl text-plaid-navy shadow-stamp">4</span>
+            <h3 class="mt-2 font-display text-2xl text-plaid-navy">Swap &amp; Hold</h3>
+            <p class="mt-2 font-bold text-plaid-deep">Confirm the swap, verify the CA, and hold your $PIPECAT. The pipe never lies — the chart might scream.</p>
+          </div>
+        </div>
+
+        <div class="mt-10 flex flex-wrap justify-center gap-4">
+          <a
+            href="https://swap.pump.fun/?input=So11111111111111111111111111111111111111112&output=0x23bf453f157ba797aa0787e6f0e62655138fa4e9"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="leaf-target btn-meme rounded-xl bg-plaid-gold px-8 py-4 font-display text-2xl text-plaid-navy shadow-stamp-lg"
+          >
+            Buy $PIPECAT Now
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Chart / Dexscreener -->
+    <section id="chart" class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+      <h2 class="text-center font-display section-title text-4xl text-plaid-cream sm:text-5xl">Live Chart</h2>
+      <p class="mx-auto mt-3 max-w-xl text-center font-bold text-plaid-tan">Dexscreener evidence locker — watch the candle crime scene unfold.</p>
+
+      <div class="mt-6 flex flex-wrap justify-center gap-4">
+        <a
+          href="https://dexscreener.com/solana/0x23bf453f157ba797aa0787e6f0e62655138fa4e9"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="leaf-target btn-meme rounded-xl border-4 border-plaid-gold bg-plaid-navy px-6 py-3 font-display text-xl text-plaid-cream shadow-gold"
+        >
+          Open Dexscreener
+        </a>
+        <a
+          href="https://swap.pump.fun/?input=So11111111111111111111111111111111111111112&output=0x23bf453f157ba797aa0787e6f0e62655138fa4e9"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="leaf-target btn-meme rounded-xl bg-plaid-gold px-6 py-3 font-display text-xl text-plaid-navy shadow-stamp"
+        >
+          Buy Now
+        </a>
+      </div>
+
+      <div class="leaf-target mt-8 overflow-hidden rounded-2xl">
+        <iframe
+          id="dexFrame"
+          title="Dexscreener chart for PIPECAT"
+          src="https://dexscreener.com/solana/0x23bf453f157ba797aa0787e6f0e62655138fa4e9?embed=1&theme=dark&trades=0&info=0"
+          class="h-[420px] w-full rounded-2xl bg-moss-950 sm:h-[520px]"
+          loading="lazy"
+          allow="clipboard-write"
+        ></iframe>
+      </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="mx-auto max-w-4xl px-4 pb-20 sm:px-6">
+      <div class="vine-border leaf-target relative overflow-hidden rounded-2xl bg-gradient-to-br from-plaid-brown to-plaid-deep p-8 text-center sm:p-12">
+        <img src="logo.png" alt="" class="absolute -right-6 -top-6 h-32 w-32 rotate-12 opacity-20 object-cover sm:h-40 sm:w-40" />
+        <p class="font-display text-3xl text-plaid-gold sm:text-4xl">The pipe is lit.</p>
+        <h2 class="mt-2 font-display section-title text-4xl text-plaid-cream sm:text-5xl">Join the Pipecathood</h2>
+        <p class="mx-auto mt-4 max-w-lg font-bold text-plaid-smoke">
+          $PIPECAT — the detective sequel nobody asked for but everyone aped. Community on Telegram &amp; X. Bags optional. Chaos mandatory.
+        </p>
+        <div class="mt-6 flex flex-wrap items-center justify-center gap-4">
+          <a href="https://t.me/Pipecathood" target="_blank" rel="noopener noreferrer" class="leaf-target">
+            <img src="tg.png" alt="Join Telegram" class="social-img h-14 w-14 rounded-full object-cover" />
+          </a>
+          <a href="https://x.com/Pipecathood" target="_blank" rel="noopener noreferrer" class="leaf-target">
+            <img src="x.png" alt="Follow on X" class="social-img h-14 w-14 rounded-full object-cover" />
+          </a>
+          <a
+            href="https://swap.pump.fun/?input=So11111111111111111111111111111111111111112&output=0x23bf453f157ba797aa0787e6f0e62655138fa4e9"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="leaf-target btn-meme rounded-xl bg-plaid-gold px-7 py-3 font-display text-2xl text-plaid-navy shadow-stamp"
+          >
+            Buy Now
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="relative z-10 border-t-4 border-plaid-navy bg-moss-950/80 py-6 text-center">
+    <div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-4 sm:flex-row sm:px-6">
+      <div class="flex items-center gap-2">
+        <img src="logo.png" alt="" class="h-8 w-8 rounded-full border-2 border-plaid-gold object-cover" />
+        <span class="font-display text-xl text-plaid-cream">Pipecat</span>
+        <span class="text-plaid-tan">·</span>
+        <span class="font-bold text-plaid-tan">$PIPECAT</span>
+      </div>
+      <p class="text-sm text-plaid-tan/80">Not financial advice. DYOR. Smoke responsibly (metaphorically).</p>
+      <div class="flex gap-3">
+        <a href="https://t.me/Pipecathood" target="_blank" rel="noopener noreferrer" class="leaf-target font-bold text-plaid-gold hover:underline">Telegram</a>
+        <a href="https://x.com/Pipecathood" target="_blank" rel="noopener noreferrer" class="leaf-target font-bold text-plaid-gold hover:underline">Twitter</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const CA = '0x23bf453f157ba797aa0787e6f0e62655138fa4e9';
+
+    // Copy CA
+    const copyBtn = document.getElementById('copyCa');
+    const toast = document.getElementById('copyToast');
+    copyBtn.addEventListener('click', async (e) => {
+      spawnLeaves(e.clientX, e.clientY);
+      try {
+        await navigator.clipboard.writeText(CA);
+        toast.textContent = 'CA copied — go investigate.';
+      } catch {
+        toast.textContent = 'Copy failed — select 0x23bf453f157ba797aa0787e6f0e62655138fa4e9 manually.';
+      }
+      toast.classList.remove('hidden');
+      toast.classList.add('copy-toast');
+      setTimeout(() => {
+        toast.classList.add('hidden');
+        toast.classList.remove('copy-toast');
+      }, 1800);
+    });
+
+    // Realistic SVG leaf templates (not emojis)
+    function leafSVG(variant) {
+      const palettes = [
+        { fill: '#3d7a28', vein: '#1e4a12', tip: '#6b9e3e' },
+        { fill: '#5a8f2a', vein: '#2d5018', tip: '#8ab84a' },
+        { fill: '#c4a02a', vein: '#7a6210', tip: '#e0c04a' },
+        { fill: '#8b5a2b', vein: '#4a2e12', tip: '#b07840' },
+        { fill: '#2d5a1a', vein: '#14300c', tip: '#4a8030' },
+      ];
+      const p = palettes[variant % palettes.length];
+      return `
+        <svg viewBox="0 0 40 52" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+          <defs>
+            <linearGradient id="g${variant}" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="${p.tip}"/>
+              <stop offset="55%" stop-color="${p.fill}"/>
+              <stop offset="100%" stop-color="${p.vein}"/>
+            </linearGradient>
+          </defs>
+          <path d="M20 2 C12 10, 4 18, 5 30 C6 40, 14 48, 20 50 C26 48, 34 40, 35 30 C36 18, 28 10, 20 2 Z"
+                fill="url(#g${variant})" stroke="${p.vein}" stroke-width="0.8"/>
+          <path d="M20 8 L20 48" stroke="${p.vein}" stroke-width="1.2" fill="none" opacity="0.7"/>
+          <path d="M20 18 Q12 22 10 28 M20 24 Q28 28 30 34 M20 32 Q14 36 12 40"
+                stroke="${p.vein}" stroke-width="0.7" fill="none" opacity="0.55"/>
+          <path d="M19 50 L21 50 L22 56 L18 56 Z" fill="${p.vein}"/>
+        </svg>`;
+    }
+
+    const leafLayer = document.getElementById('leafLayer');
+
+    function spawnLeaves(x, y, count) {
+      const n = count || (3 + Math.floor(Math.random() * 3)); // 3–5
+      for (let i = 0; i < n; i++) {
+        const el = document.createElement('div');
+        el.className = 'flying-leaf';
+        el.innerHTML = leafSVG(Math.floor(Math.random() * 5));
+        const angle = (Math.random() * 360) * (Math.PI / 180);
+        const dist = 60 + Math.random() * 120;
+        const dx = Math.cos(angle) * dist * (Math.random() > 0.3 ? 1 : -1);
+        const dy = -40 - Math.random() * 140;
+        el.style.left = x + (Math.random() * 20 - 10) + 'px';
+        el.style.top = y + (Math.random() * 20 - 10) + 'px';
+        el.style.setProperty('--dx', dx + 'px');
+        el.style.setProperty('--dy', dy + 'px');
+        el.style.setProperty('--r0', (Math.random() * 60 - 30) + 'deg');
+        el.style.setProperty('--r1', (180 + Math.random() * 360) + 'deg');
+        el.style.setProperty('--dur', (0.85 + Math.random() * 0.55) + 's');
+        el.style.width = (22 + Math.random() * 16) + 'px';
+        el.style.height = (28 + Math.random() * 18) + 'px';
+        leafLayer.appendChild(el);
+        el.addEventListener('animationend', () => el.remove());
+      }
+    }
+
+    function onLeafHover(e) {
+      spawnLeaves(e.clientX, e.clientY);
+    }
+
+    document.querySelectorAll('.leaf-target, a, button, img').forEach((el) => {
+      let last = 0;
+      el.addEventListener('mouseenter', (e) => {
+        const now = Date.now();
+        if (now - last < 280) return;
+        last = now;
+        onLeafHover(e);
+      });
+    });
+  </script>
+</body>
+</html>
